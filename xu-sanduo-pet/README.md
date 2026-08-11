@@ -31,6 +31,21 @@ npm install
 npm start
 ```
 
+`npm start` 默认带 `--soft-gpu`，适合云端 / 无独显 Linux，避免 GPU 进程崩溃刷屏。本机有正常 GPU 时可用：
+
+```bash
+npm run start:native
+```
+
+### Linux 下看到 `bus.cc` / `viz_main_impl` 报错？
+
+多数是 **环境噪音，不是应用逻辑失败**：容器里没有 DBus session / 没有硬件 GPU 时 Chromium 会刷这些日志。`npm start` 已自动：
+
+1. 启用 `--soft-gpu`（软件渲染，去掉 GPU 崩溃）
+2. Linux 上若无 `DBUS_SESSION_BUS_ADDRESS`，用 `dbus-run-session` 包一层
+
+只要出现 `[xu-sanduo] ready on ...`，主进程已起来。Mac / Windows 桌面安装包一般不会看到这些。本机有独显可用 `npm run start:native`。
+
 运行测试（状态机 + 精灵帧）：
 
 ```bash

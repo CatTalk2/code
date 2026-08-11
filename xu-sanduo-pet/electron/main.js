@@ -1,13 +1,40 @@
 'use strict';
 
-const { app, BrowserWindow, Tray, Menu, nativeImage, ipcMain, powerMonitor, screen } = require('electron');
 const path = require('path');
 const fs = require('fs');
+
+/**
+ * Linux / CI / 无头环境常见噪音：
+ * - 空的 DBUS_SESSION_BUS_ADDRESS 会触发 Chromium bus.cc 报错
+ * - 无硬件 GPU 时 viz GPU process 反复退出
+ * 在 app ready 前处理；Mac / Windows 桌面正常路径不受影响。
+ */
+(function hardenRuntimeEnv() {
+  if (process.env.DBUS_SESSION_BUS_ADDRESS === '') {
+    delete process.env.DBUS_SESSION_BUS_ADDRESS;
+  }
+})();
+
+const { app, BrowserWindow, Tray, Menu, nativeImage, ipcMain, powerMonitor, screen } = require('electron');
 const { ActivityMonitor } = require('../src/monitor/activity');
 const { StateMachine, STATES } = require('../src/pet/state-machine');
 const { pickQuote } = require('../src/pet/quotes');
 
 const isDev = process.argv.includes('--enable-logging') || !app.isPackaged;
+const softGpu =
+  process.env.SANDUO_SOFT_GPU === '1' ||
+  process.argv.includes('--soft-gpu') ||
+  process.env.ELECTRON_DISABLE_GPU === '1' ||
+  Boolean(process.env.CI) ||
+  Boolean(process.env.CURSOR_AGENT);
+
+// Chromium 开关必须在 ready 前。默认 npm start 带 --soft-gpu，真机可 npm run start:native
+if (softGpu) {
+  app.disableHardwareAcceleration();
+  app.commandLine.appendSwitch('disable-gpu');
+  app.commandLine.appendSwitch('disable-gpu-compositing');
+  app.commandLine.appendSwitch('disable-software-rasterizer');
+}
 
 let petWindow = null;
 let tray = null;
