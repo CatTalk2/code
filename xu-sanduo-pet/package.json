@@ -1,0 +1,55 @@
+{
+  "name": "xu-sanduo-pet",
+  "version": "0.1.0",
+  "description": "像素许三多桌面宠物 —— 编码场景陪伴（Mac / Windows）",
+  "main": "electron/main.js",
+  "author": "Xu Sanduo Coding Pet",
+  "license": "MIT",
+  "scripts": {
+    "start": "node scripts/launch.js",
+    "start:bash": "bash scripts/start.sh",
+    "start:native": "electron .",
+    "dev": "node scripts/launch.js --enable-logging",
+    "start:linux": "SANDUO_SOFT_GPU=1 bash scripts/start.sh",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder",
+    "dist:mac": "electron-builder --mac",
+    "dist:win": "electron-builder --win",
+    "test:states": "node scripts/test-state-machine.js"
+  },
+  "build": {
+    "appId": "com.xusanduo.codingpet",
+    "productName": "许三多桌宠",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "electron/**/*",
+      "src/**/*",
+      "assets/**/*",
+      "package.json"
+    ],
+    "mac": {
+      "category": "public.app-category.entertainment",
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "darkModeSupport": true
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  },
+  "devDependencies": {
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8"
+  }
+}
