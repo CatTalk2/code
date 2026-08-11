@@ -1,0 +1,125 @@
+:root {
+  --ink: #1e2a1c;
+  --foam: #f4efe4;
+  --leaf: #4f7a45;
+  --shade: rgba(20, 28, 18, 0.55);
+}
+
+* {
+  box-sizing: border-box;
+  user-select: none;
+}
+
+html,
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: transparent;
+  font-family: "ZCOOL KuaiLe", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+#stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding-bottom: 8px;
+  -webkit-app-region: no-drag;
+}
+
+#pet {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  cursor: grab;
+  filter: drop-shadow(0 2px 0 rgba(0, 0, 0, 0.25));
+  animation: bob 2.4s ease-in-out infinite;
+}
+
+#pet:active {
+  cursor: grabbing;
+}
+
+#pet.state-running {
+  animation: dash 0.35s steps(2) infinite;
+}
+
+#pet.state-sleeping {
+  animation: none;
+  opacity: 0.95;
+}
+
+#pet.state-celebrate {
+  animation: bounce 0.45s ease-in-out infinite;
+}
+
+#bubble {
+  max-width: 180px;
+  margin-bottom: 6px;
+  padding: 6px 8px;
+  background: var(--foam);
+  color: var(--ink);
+  border: 2px solid var(--ink);
+  box-shadow: 2px 2px 0 var(--shade);
+  font-size: 12px;
+  line-height: 1.35;
+  letter-spacing: 0.02em;
+  text-align: center;
+  opacity: 1;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+  transform: translateY(0);
+}
+
+#bubble.hidden {
+  opacity: 0;
+  transform: translateY(4px);
+  pointer-events: none;
+}
+
+#badge {
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
+  font-size: 10px;
+  color: var(--foam);
+  background: var(--shade);
+  padding: 2px 6px;
+  border-radius: 2px;
+}
+
+#badge.hidden {
+  display: none;
+}
+
+@keyframes bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes dash {
+  from {
+    transform: translateX(-1px);
+  }
+  to {
+    transform: translateX(1px);
+  }
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}

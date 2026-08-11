@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'"
+    />
+    <title>许三多桌宠</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div id="stage">
+      <div id="bubble" class="hidden" aria-live="polite"></div>
+      <canvas id="pet" width="128" height="128"></canvas>
+      <div id="badge" class="hidden"></div>
+    </div>
+    <script src="../pet/sprites.js"></script>
+    <script src="./renderer.js"></script>
+  </body>
+</html>
