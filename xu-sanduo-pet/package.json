@@ -6,9 +6,10 @@
   "author": "Xu Sanduo Coding Pet",
   "license": "MIT",
   "scripts": {
-    "start": "bash scripts/start.sh",
+    "start": "node scripts/launch.js",
+    "start:bash": "bash scripts/start.sh",
     "start:native": "electron .",
-    "dev": "bash scripts/start.sh --enable-logging",
+    "dev": "node scripts/launch.js --enable-logging",
     "start:linux": "SANDUO_SOFT_GPU=1 bash scripts/start.sh",
     "pack": "electron-builder --dir",
     "dist": "electron-builder",

@@ -23,7 +23,25 @@
 
 若需识别 Cursor / VS Code 等前台窗口，请在 **系统设置 → 隐私与安全性 → 辅助功能** 中允许本应用（或终端里跑 `npm start` 时的 Electron）。未授权时自动降级为「仅空闲时间」驱动睡觉/稍息。
 
-## 快速开始
+## 在你自己的电脑上跑（Mac / Windows）
+
+云端 Agent **不能**把窗口画到你的本机桌面。请在本机终端执行：
+
+```bash
+git fetch origin cursor/xu-sanduo-desktop-pet-422a
+git checkout cursor/xu-sanduo-desktop-pet-422a
+cd xu-sanduo-pet
+npm install
+npm start
+```
+
+启动后屏幕**顶部居中**会出现「许三多 · 在这儿」；可拖拽。托盘图标可手动切状态。
+
+- macOS：若要识别 Cursor / VS Code 前台窗口，到 **系统设置 → 隐私与安全性 → 辅助功能** 允许 Electron / 终端。
+- Windows：直接 `npm start` 即可。
+- 本机打包安装包：`npm run dist:mac` 或 `npm run dist:win`（需在对应系统上执行）。
+
+## 快速开始（开发）
 
 ```bash
 cd xu-sanduo-pet
@@ -31,20 +49,11 @@ npm install
 npm start
 ```
 
-`npm start` 默认带 `--soft-gpu`，适合云端 / 无独显 Linux，避免 GPU 进程崩溃刷屏。本机有正常 GPU 时可用：
-
-```bash
-npm run start:native
-```
+Linux / CI 会自动 soft-gpu；Mac / Windows 走原生 GPU。
 
 ### Linux 下看到 `bus.cc` / `viz_main_impl` 报错？
 
-多数是 **环境噪音，不是应用逻辑失败**：容器里没有 DBus session / 没有硬件 GPU 时 Chromium 会刷这些日志。`npm start` 已自动：
-
-1. 启用 `--soft-gpu`（软件渲染，去掉 GPU 崩溃）
-2. Linux 上若无 `DBUS_SESSION_BUS_ADDRESS`，用 `dbus-run-session` 包一层
-
-只要出现 `[xu-sanduo] ready on ...`，主进程已起来。Mac / Windows 桌面安装包一般不会看到这些。本机有独显可用 `npm run start:native`。
+多数是环境噪音。只要出现 `[xu-sanduo] ready on ...` 即已启动。
 
 运行测试（状态机 + 精灵帧）：
 

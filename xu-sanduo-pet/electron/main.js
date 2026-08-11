@@ -164,8 +164,8 @@ function createPetWindow() {
     petWindow.focus();
     petWindow.moveTop();
     applyClickThrough();
-    // 启动时先唱军歌，方便一眼认出
-    const snap = machine.force(STATES.CELEBRATE, 12000);
+    // 首次亮相：敬礼 3 秒，方便一眼认出，然后交给状态机
+    const snap = machine.force(STATES.GREET, 3000);
     sendState(snap, true);
   });
 
