@@ -1,7 +1,0 @@
-@import "css/mod/text-truncate";
-
-.watched-projects{
-    li {
-        @include text-truncate(300px);
-    }
-}
