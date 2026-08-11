@@ -109,11 +109,24 @@ function createTrayIcon() {
 
 function createPetWindow() {
   const display = screen.getPrimaryDisplay();
-  const { width, height } = display.workArea;
-  const winW = 220;
-  const winH = 200;
-  const x = Math.round(width - winW - 24);
-  const y = Math.round(height - winH - 24);
+  const work = display.workArea;
+  const scale = Number(settings.scale) || 10;
+  const winW = Number(settings.windowWidth) || Math.max(360, 28 * scale + 140);
+  const winH = Number(settings.windowHeight) || Math.max(340, 28 * scale + 160);
+  const anchor = settings.anchor || 'top-center';
+
+  let x;
+  let y;
+  if (anchor === 'top-center') {
+    x = Math.round(work.x + (work.width - winW) / 2);
+    y = Math.round(work.y + 16);
+  } else if (anchor === 'bottom-right') {
+    x = Math.round(work.x + work.width - winW - 24);
+    y = Math.round(work.y + work.height - winH - 24);
+  } else {
+    x = Math.round(work.x + (work.width - winW) / 2);
+    y = Math.round(work.y + 16);
+  }
 
   petWindow = new BrowserWindow({
     width: winW,
@@ -126,7 +139,7 @@ function createPetWindow() {
     movable: true,
     hasShadow: false,
     alwaysOnTop: settings.alwaysOnTop !== false,
-    skipTaskbar: true,
+    skipTaskbar: false,
     fullscreenable: false,
     focusable: true,
     show: false,
@@ -144,9 +157,13 @@ function createPetWindow() {
   petWindow.loadFile(path.join(__dirname, '..', 'src', 'ui', 'index.html'));
 
   petWindow.once('ready-to-show', () => {
-    petWindow.showInactive();
+    petWindow.show();
+    petWindow.focus();
+    petWindow.moveTop();
     applyClickThrough();
-    sendState(machine.snapshot(), true);
+    // 启动时先唱军歌，方便一眼认出
+    const snap = machine.force(STATES.CELEBRATE, 12000);
+    sendState(snap, true);
   });
 
   petWindow.on('closed', () => {

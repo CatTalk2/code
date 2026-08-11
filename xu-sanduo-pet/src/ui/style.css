@@ -27,9 +27,24 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: flex-start;
+  padding-top: 12px;
   padding-bottom: 8px;
   -webkit-app-region: no-drag;
+  background: rgba(244, 239, 228, 0.18);
+  border: 2px dashed rgba(30, 42, 28, 0.45);
+  border-radius: 12px;
+}
+
+#title {
+  margin: 0 0 8px;
+  padding: 4px 10px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--foam);
+  background: rgba(30, 42, 28, 0.72);
+  border: 2px solid var(--ink);
+  letter-spacing: 0.04em;
 }
 
 #pet {
@@ -58,14 +73,14 @@ body {
 }
 
 #bubble {
-  max-width: 180px;
-  margin-bottom: 6px;
-  padding: 6px 8px;
+  max-width: 280px;
+  margin-bottom: 10px;
+  padding: 10px 12px;
   background: var(--foam);
   color: var(--ink);
-  border: 2px solid var(--ink);
-  box-shadow: 2px 2px 0 var(--shade);
-  font-size: 12px;
+  border: 3px solid var(--ink);
+  box-shadow: 3px 3px 0 var(--shade);
+  font-size: 18px;
   line-height: 1.35;
   letter-spacing: 0.02em;
   text-align: center;
