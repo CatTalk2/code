@@ -34,6 +34,9 @@ if (softGpu) {
   app.commandLine.appendSwitch('disable-gpu');
   app.commandLine.appendSwitch('disable-gpu-compositing');
   app.commandLine.appendSwitch('disable-software-rasterizer');
+  app.commandLine.appendSwitch('disable-gpu-sandbox');
+  app.commandLine.appendSwitch('no-sandbox');
+  app.commandLine.appendSwitch('use-gl', 'swiftshader');
 }
 
 let petWindow = null;
